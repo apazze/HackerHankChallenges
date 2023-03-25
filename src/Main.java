@@ -6,6 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.Permission;
 import java.text.NumberFormat;
 import java.util.*;
+import java.util.regex.Pattern;
 
 import static java.lang.Math.pow;
 import static java.util.Calendar.LONG_STANDALONE;
@@ -40,11 +41,29 @@ public class Main {
 
         //Palindromo();
 
-        Anagramas();
+        //Anagramas();
+
+        //Split();
 
     }
 
-    private static void Anagramas(){
+    private static void Split() {
+        Scanner scan = new Scanner(System.in);
+        String s = scan.nextLine();
+        scan.close();
+        String[] split = s.trim().split("[,.!?'@_] *| +");
+
+        List<String> arr = new ArrayList<>();
+        for (String s1 : split){
+            if(!s1.isEmpty()){
+                arr.add(s1);
+            }
+        }
+        System.out.println(arr.size());
+        for (String s2 : arr) System.out.println(s2);
+    }
+
+    private static void Anagramas() {
         Scanner scan = new Scanner(System.in);
         String a = scan.next();
         String b = scan.next();
@@ -52,7 +71,7 @@ public class Main {
 
         boolean ret;
 
-        if(a.length() != b.length()){
+        if (a.length() != b.length()) {
             ret = false;
         }
 //        else {
@@ -65,20 +84,16 @@ public class Main {
 
         // Outra forma "comparando e comendo as letras de b" sem sort
 
-        else
-        {
+        else {
             //a.toLowerCase(); // Imutável! Armazenar em outra variavel
 
             String s1 = a.toLowerCase();
             String s2 = b.toLowerCase();
 
-            for (int i = 0; i < s1.length(); i++)
-            {
-                for (int j = 0; j < s2.length(); j++)
-                {
-                    if (s1.charAt(i) == s2.charAt(j))
-                    {
-                        String aux = s2.substring(0, j) ;
+            for (int i = 0; i < s1.length(); i++) {
+                for (int j = 0; j < s2.length(); j++) {
+                    if (s1.charAt(i) == s2.charAt(j)) {
+                        String aux = s2.substring(0, j);
                         String aux2 = s2.substring(j + 1);
 
                         s2 = aux + aux2;
@@ -89,12 +104,12 @@ public class Main {
             }
             ret = s2.length() == 0 ? true : false;
         }
-        System.out.println( (ret) ? "Anagrams" : "Not Anagrams" );
+        System.out.println((ret) ? "Anagrams" : "Not Anagrams");
     }
 
-    private static void Palindromo(){
-        Scanner sc=new Scanner(System.in);
-        String A=sc.next();
+    private static void Palindromo() {
+        Scanner sc = new Scanner(System.in);
+        String A = sc.next();
 
         String invertido = new StringBuilder(A).reverse().toString();
 
@@ -115,7 +130,8 @@ public class Main {
         }
         System.out.println(sb.toString());
     }
-    private static void Payment(){
+
+    private static void Payment() {
         Scanner scanner = new Scanner(System.in);
         double payment = scanner.nextDouble();
         scanner.close();
@@ -129,6 +145,7 @@ public class Main {
         System.out.println("China: " + china);
         System.out.println("France: " + france);
     }
+
     private static void DiaDaSemana() throws IOException {
 //        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
 //        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
@@ -152,6 +169,7 @@ public class Main {
 //        bufferedReader.close();
 //        bufferedWriter.close();
     }
+
     private void ParserString() {
         DoNotTerminate doNotTerminate = new DoNotTerminate();
         doNotTerminate.forbidExit();
