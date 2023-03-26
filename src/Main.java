@@ -6,6 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.Permission;
 import java.text.NumberFormat;
 import java.util.*;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static java.lang.Math.pow;
@@ -13,7 +14,7 @@ import static java.util.Calendar.LONG_STANDALONE;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        System.out.println("Hello world!");
+        System.out.println("Hello world!\n\n");
 
         //List<Integer> arr = Arrays.asList(5, 1, 2, 3, 4, 5, 1);
 
@@ -49,6 +50,28 @@ public class Main {
 
         //PatternIP();
 
+        //RepeatWords();
+
+    }
+
+    private static void RepeatWords(){
+        String[] strings = {"Goodbye bYE bye WORLD world world",
+                "Sam went went to TO to his business",
+                "Reya IS is the the best player in eye eye game",
+                "in inthe",
+                "Hello hello Ab aB"};
+
+        String regex = "\\b(\\w+)(\\s+\\1\\b)+";
+        Pattern p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+
+        for (String s : strings){
+            Matcher m = p.matcher(s);
+
+            while(m.find()){
+                s = s.replaceAll(m.group(0), m.group(1));
+            }
+            System.out.println(s);
+        }
     }
 
     private static void PatternIP(){
@@ -77,10 +100,9 @@ public class Main {
         List<String> list = new ArrayList<>();
         int testCases = Integer.parseInt(in.nextLine());
 
-        while(testCases>0){
+        while(testCases-- >0){
             String pattern = in.nextLine();
             list.add(pattern);
-            testCases--;
         }
         for(String s : list){
 
