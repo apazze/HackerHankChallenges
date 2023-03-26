@@ -45,6 +45,52 @@ public class Main {
 
         //Split();
 
+        //PatternRegex();
+
+        //PatternIP();
+
+    }
+
+    private static void PatternIP(){
+        List<String> list = new ArrayList<>();
+        list.addAll(List.of("000.12.12.034", "121.234.12.12", "23.45.12.56", //validos
+                "000.12.234.23.23", "666.666.23.23", ".213.123.23.32", "23.45.22.32.", "I.Am.not.an.ip")); // invalidos
+        Pattern p = Pattern.compile("^(([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.){3}([01]?\\d\\d?|2[0-4]\\d|25[0-5])$");
+
+        for(String s : list){
+            System.out.println(s.matches(p.pattern()));
+        }
+    }
+
+    class MyRegex{
+        private final String pattern;
+
+        public MyRegex(){
+            this.pattern =
+                    Pattern.compile("^(([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.){3}([01]?\\d\\d?|2[0-4]\\d|25[0-5])$")
+                            .toString();
+        }
+    }
+
+    private static void PatternRegex(){
+        Scanner in = new Scanner(System.in);
+        List<String> list = new ArrayList<>();
+        int testCases = Integer.parseInt(in.nextLine());
+
+        while(testCases>0){
+            String pattern = in.nextLine();
+            list.add(pattern);
+            testCases--;
+        }
+        for(String s : list){
+
+            try{
+                Pattern.compile(s);
+                System.out.println("Valid");
+            } catch (Exception e){
+                System.out.println("Invalid");
+            }
+        }
     }
 
     private static void Split() {
