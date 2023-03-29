@@ -8,13 +8,14 @@ import java.text.NumberFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static java.lang.Math.pow;
 import static java.util.Calendar.LONG_STANDALONE;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        System.out.println("Hello world!\n\n");
+        System.out.println("Hello world!");
 
         //List<Integer> arr = Arrays.asList(5, 1, 2, 3, 4, 5, 1);
 
@@ -52,64 +53,157 @@ public class Main {
 
         //RepeatWords();
 
+        //PatternUsername();
+
+        //MenorDiferenca();
+
+        //ConversorBinToDec();
+
+        //EsmagarTijolos();
+
+
+
     }
 
-    private static void RepeatWords(){
+    private static void EsmagarTijolos() {
+        System.out.println(smashTheBricks(4, List.of(3, 2, 5, 4, 6, 7, 9)));
+        System.out.println(smashTheBricks(0, List.of(2)));
+    }
+
+    private static List<List<Long>> smashTheBricks(int bigHits, List<Integer> newtons) {
+        Long totalHits = 0l;
+        List<Long> idxGolpesGrande = new ArrayList<>();
+        List<Long> idxGolpesPequeno = new ArrayList<>();
+
+        List<Long> aux = newtons.stream().map(Integer::longValue).collect(Collectors.toList());
+        List<Long> maiores = new ArrayList<>();
+
+        if (bigHits > 0) {
+            Collections.sort(aux);
+            Collections.reverse(aux);
+            for (int i = 0; i < bigHits; i++) {
+                maiores.add(aux.get(i));
+            }
+
+            for(int y=0; y<newtons.size(); y++){
+                if(maiores.contains(Long.valueOf(newtons.get(y)))){
+                    idxGolpesGrande.add(Long.valueOf(y)+1);
+                    totalHits++;
+                } else {
+                    idxGolpesPequeno.add(Long.valueOf(y)+1);
+                    totalHits += Long.valueOf(newtons.get(y));
+                }
+            }
+            if(idxGolpesPequeno.isEmpty()) idxGolpesPequeno.add(-1L);
+
+        } else {
+            idxGolpesGrande.add(-1L);
+            for(int y=0; y<newtons.size(); y++){
+                idxGolpesPequeno.add(Long.valueOf(y)+1);
+                totalHits += Long.valueOf(newtons.get(y));
+            }
+        }
+        return List.of(List.of(totalHits), idxGolpesGrande, idxGolpesPequeno);
+    }
+
+    private static void ConversorBinToDec() {
+        LinkedList<Integer> list = new LinkedList<>(Arrays.asList(0, 1, 0, 0, 1, 1));
+        Collections.reverse(list);
+        int soma = 0;
+        for (int i = 0; i < list.size() - 1; i++) {
+            soma += pow(2, i) * list.get(i);
+        }
+    }
+
+    private static void MenorDiferenca() {
+
+        List<Integer> arr = Arrays.asList(-9, 5, -5, 12, 10, 9);
+        Collections.sort(arr);
+        List<Integer> arr1 = arr.stream().distinct().collect(Collectors.toList());
+
+        int menor = arr1.get(1) - arr1.get(0);
+
+        for (int i = 0; i < arr1.size() - 1; i++) {
+            if (arr1.get(i + 1) - arr1.get(i) < menor) {
+                menor = arr1.get(i + 1) - arr1.get(i);
+            }
+        }
+
+        for (int i = 0; i < arr1.size() - 1; i++) {
+            if (arr1.get(i + 1) - arr1.get(i) == menor) {
+                System.out.println(arr1.get(i) + " " + arr1.get(i + 1));
+            }
+        }
+    }
+
+    private static void PatternUsername() {
+        String[] strings = {"Julia", "Samantha", "Samantha_21", "1Samantha", "Samantha?10_2A", "JuliaZ007", "Julia@007", "_Julia007"};
+        String regex = "^([a-zA-Z]{1})([a-zA-Z_0-9]{7,29})$";
+        Pattern p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+
+        List<String> collect = Arrays.stream(strings)
+                .peek(s -> System.out.println((s.matches(p.pattern()) ? "Valid" : "Invalid")))
+                .filter(s -> s.matches(p.pattern()))
+                .collect(Collectors.toList());
+    }
+
+    private static void RepeatWords() {
         String[] strings = {"Goodbye bYE bye WORLD world world",
                 "Sam went went to TO to his business",
                 "Reya IS is the the best player in eye eye game",
                 "in inthe",
                 "Hello hello Ab aB"};
 
-        String regex = "\\b(\\w+)(\\s+\\1\\b)+";
+        String regex = "\\b(\\w+)(\\s+\\1\\b)+"; // + = um ou mais | \1 = backreference ao grupo #1
+        // \w = word | \d = digit | \s = whitespace | \b = word
         Pattern p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
 
-        for (String s : strings){
+        for (String s : strings) {
             Matcher m = p.matcher(s);
 
-            while(m.find()){
+            while (m.find()) {
                 s = s.replaceAll(m.group(0), m.group(1));
             }
             System.out.println(s);
         }
     }
 
-    private static void PatternIP(){
+    private static void PatternIP() {
         List<String> list = new ArrayList<>();
         list.addAll(List.of("000.12.12.034", "121.234.12.12", "23.45.12.56", //validos
                 "000.12.234.23.23", "666.666.23.23", ".213.123.23.32", "23.45.22.32.", "I.Am.not.an.ip")); // invalidos
         Pattern p = Pattern.compile("^(([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.){3}([01]?\\d\\d?|2[0-4]\\d|25[0-5])$");
 
-        for(String s : list){
+        for (String s : list) {
             System.out.println(s.matches(p.pattern()));
         }
     }
 
-    class MyRegex{
+    class MyRegex {
         private final String pattern;
 
-        public MyRegex(){
+        public MyRegex() {
             this.pattern =
                     Pattern.compile("^(([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.){3}([01]?\\d\\d?|2[0-4]\\d|25[0-5])$")
                             .toString();
         }
     }
 
-    private static void PatternRegex(){
+    private static void PatternRegex() {
         Scanner in = new Scanner(System.in);
         List<String> list = new ArrayList<>();
         int testCases = Integer.parseInt(in.nextLine());
 
-        while(testCases-- >0){
+        while (testCases-- > 0) {
             String pattern = in.nextLine();
             list.add(pattern);
         }
-        for(String s : list){
+        for (String s : list) {
 
-            try{
+            try {
                 Pattern.compile(s);
                 System.out.println("Valid");
-            } catch (Exception e){
+            } catch (Exception e) {
                 System.out.println("Invalid");
             }
         }
@@ -122,8 +216,8 @@ public class Main {
         String[] split = s.trim().split("[,.!?'@_] *| +");
 
         List<String> arr = new ArrayList<>();
-        for (String s1 : split){
-            if(!s1.isEmpty()){
+        for (String s1 : split) {
+            if (!s1.isEmpty()) {
                 arr.add(s1);
             }
         }
