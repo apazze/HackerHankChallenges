@@ -61,8 +61,62 @@ public class Main {
 
         //EsmagarTijolos();
 
+        //ConversorDecToBinDevolveQuartoBit();
 
+        //ParesBalanceados();
+    }
 
+    private static void ParesBalanceados(){
+        List<String> list = List.of("{[(])}","{}[]()", "{[}]}", "[{}]", "[{]}");
+        List<String> result = new ArrayList<>();
+        Map<Character, Character> map = new HashMap<>(){{
+            put('(', ')');
+            put('[', ']');
+            put('{', '}');
+        }};
+
+        list.forEach( s -> {
+            if(s.length() % 2 != 0) {
+                result.add("NÃO");
+            } else {
+                LinkedList<Character> linkedList = new LinkedList<>();
+                char[] chars = s.toCharArray();
+
+                for(int i = 0; i < chars.length; i++){
+                    if(map.containsKey(chars[i])){
+                        linkedList.add(chars[i]);
+                    } else {
+                        if(map.containsValue(chars[i]) && linkedList.getLast().equals(findKey(chars[i], map))){
+                            linkedList.removeLast();
+                            if(i==chars.length-1 && linkedList.isEmpty()) result.add("SIM");
+                        }
+                        else {
+                            result.add("NÃO");
+                            i = chars.length;
+                        }
+                    }
+                }
+            }
+        });
+        result.forEach(System.out::println);
+    }
+
+    private static Character findKey(Character value, Map map){
+        for(Object key : map.keySet()){
+            if(Objects.equals(map.get(key), value)){
+                return key.toString().charAt(0); //return the first found
+            }
+        }
+        return null;
+    }
+
+    private static void ConversorDecToBinDevolveQuartoBit(){
+        List<Integer> list = List.of(0, 1, 0, 0, 1, 1);
+
+        StringBuilder s = new StringBuilder();
+        list.forEach(s::append);
+
+        String substring = s.substring(4, 5);
     }
 
     private static void EsmagarTijolos() {
