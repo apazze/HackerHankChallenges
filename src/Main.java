@@ -75,17 +75,21 @@ public class Main {
 
     private static void Substring(){
         String s = "welcometojava";
-        int x = 3;
+        int k = 3;
 
-        List<String> out = new ArrayList<>();
+        String smallest = s.substring(0, k);
+        String largest = s.substring(0, k);
 
-        for(int i = 0; i <= s.length()-x; i++){
-            out.add(s.substring(i, i + x));
+        for(int i = k; i <= s.length()-k; i++){
+            if(s.substring(i, i + k).compareTo(smallest) < 0){
+                smallest = s.substring(i, i + k);
+            }
+            if(s.substring(i, i + k).compareTo(largest) > 0){
+                largest = s.substring(i, i + k);
+            }
         }
 
-        Collections.sort(out);
-
-        System.out.println(out.get(0) + "\n" + out.get(out.size()-1));
+        System.out.println(smallest + "\n" + largest);
     }
 
     private static void TwoStrings(){
@@ -95,7 +99,7 @@ public class Main {
 
         result.add(String.valueOf(A.length() + B.length()));
 
-        if(A.toLowerCase().compareTo(B.toLowerCase()) <= 0){
+        if(A.toLowerCase().compareTo(B.toLowerCase()) <= 0){ // A antes de B == negativo
             result.add("No");
         } else result.add("Yes");
 
