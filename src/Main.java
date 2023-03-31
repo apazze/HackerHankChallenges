@@ -64,33 +64,93 @@ public class Main {
         //ConversorDecToBinDevolveQuartoBit();
 
         //ParesBalanceados();
+
+        //CutTheSticks();
+
     }
 
-    private static void ParesBalanceados(){
-        List<String> list = List.of("{[(])}","{}[]()", "{[}]}", "[{}]", "[{]}");
+    private static void CutTheSticks() {
+        List<Integer> list = List.of(6, 5, 4, 4, 2, 2, 8);
+        List<List<String>> result = new ArrayList<>();
+        List<Integer> aux = new ArrayList<>();
+
+        list.forEach(aux::add);
+        aux.remove(aux.get(0));
+
+        while (!verificaTermino(aux)) {
+            List<String> aux2 = new ArrayList<>();
+
+            aux.forEach(v -> aux2.add(v.toString()));
+
+            Integer min = getMin(aux);
+
+            aux2.add(min.toString());
+
+            Long count = getCount(aux);
+            aux2.add(count.toString());
+
+            result.add(aux2);
+
+            List<Integer> temp = new ArrayList<>();
+
+            aux.forEach(i -> {
+                if (i - min < 0) temp.add(0);
+                else temp.add(i - min);
+            });
+
+            aux = List.copyOf(temp);
+        }
+
+        List<String> aux2 = new ArrayList<>();
+        aux.forEach(v -> aux2.add(v.toString()));
+        aux2.add("PRONTO");
+        aux2.add("PRONTO");
+        result.add(aux2);
+
+        System.out.println(result);
+    }
+
+    private static boolean verificaTermino(List<Integer> aux) {
+        return aux.stream().allMatch(i -> i.equals(0));
+    }
+
+    private static Long getCount(List<Integer> aux2) {
+        return aux2.stream()
+                .filter(n -> n.intValue() > 0)
+                .count();
+    }
+
+    private static Integer getMin(List<Integer> aux) {
+        return aux.stream()
+                .filter(n -> n.intValue() > 0)
+                .min(Integer::compareTo)
+                .orElse(null);
+    }
+
+    private static void ParesBalanceados() {
+        List<String> list = List.of("{[(])}", "{}[]()", "{[}]}", "[{}]", "[{]}");
         List<String> result = new ArrayList<>();
-        Map<Character, Character> map = new HashMap<>(){{
+        Map<Character, Character> map = new HashMap<>() {{
             put('(', ')');
             put('[', ']');
             put('{', '}');
         }};
 
-        list.forEach( s -> {
-            if(s.length() % 2 != 0) {
+        list.forEach(s -> {
+            if (s.length() % 2 != 0) {
                 result.add("NÃO");
             } else {
                 LinkedList<Character> linkedList = new LinkedList<>();
                 char[] chars = s.toCharArray();
 
-                for(int i = 0; i < chars.length; i++){
-                    if(map.containsKey(chars[i])){
+                for (int i = 0; i < chars.length; i++) {
+                    if (map.containsKey(chars[i])) {
                         linkedList.add(chars[i]);
                     } else {
-                        if(map.containsValue(chars[i]) && linkedList.getLast().equals(findKey(chars[i], map))){
+                        if (map.containsValue(chars[i]) && linkedList.getLast().equals(findKey(chars[i], map))) {
                             linkedList.removeLast();
-                            if(i==chars.length-1 && linkedList.isEmpty()) result.add("SIM");
-                        }
-                        else {
+                            if (i == chars.length - 1 && linkedList.isEmpty()) result.add("SIM");
+                        } else {
                             result.add("NÃO");
                             i = chars.length;
                         }
@@ -101,16 +161,16 @@ public class Main {
         result.forEach(System.out::println);
     }
 
-    private static Character findKey(Character value, Map map){
-        for(Object key : map.keySet()){
-            if(Objects.equals(map.get(key), value)){
+    private static Character findKey(Character value, Map map) {
+        for (Object key : map.keySet()) {
+            if (Objects.equals(map.get(key), value)) {
                 return key.toString().charAt(0); //return the first found
             }
         }
         return null;
     }
 
-    private static void ConversorDecToBinDevolveQuartoBit(){
+    private static void ConversorDecToBinDevolveQuartoBit() {
         List<Integer> list = List.of(0, 1, 0, 0, 1, 1);
 
         StringBuilder s = new StringBuilder();
@@ -139,21 +199,21 @@ public class Main {
                 maiores.add(aux.get(i));
             }
 
-            for(int y=0; y<newtons.size(); y++){
-                if(maiores.contains(Long.valueOf(newtons.get(y)))){
-                    idxGolpesGrande.add(Long.valueOf(y)+1);
+            for (int y = 0; y < newtons.size(); y++) {
+                if (maiores.contains(Long.valueOf(newtons.get(y)))) {
+                    idxGolpesGrande.add(Long.valueOf(y) + 1);
                     totalHits++;
                 } else {
-                    idxGolpesPequeno.add(Long.valueOf(y)+1);
+                    idxGolpesPequeno.add(Long.valueOf(y) + 1);
                     totalHits += Long.valueOf(newtons.get(y));
                 }
             }
-            if(idxGolpesPequeno.isEmpty()) idxGolpesPequeno.add(-1L);
+            if (idxGolpesPequeno.isEmpty()) idxGolpesPequeno.add(-1L);
 
         } else {
             idxGolpesGrande.add(-1L);
-            for(int y=0; y<newtons.size(); y++){
-                idxGolpesPequeno.add(Long.valueOf(y)+1);
+            for (int y = 0; y < newtons.size(); y++) {
+                idxGolpesPequeno.add(Long.valueOf(y) + 1);
                 totalHits += Long.valueOf(newtons.get(y));
             }
         }
