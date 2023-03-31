@@ -67,6 +67,44 @@ public class Main {
 
         //CutTheSticks();
 
+        //TwoStrings();
+
+        //Substring();
+
+    }
+
+    private static void Substring(){
+        String s = "welcometojava";
+        int x = 3;
+
+        List<String> out = new ArrayList<>();
+
+        for(int i = 0; i <= s.length()-x; i++){
+            out.add(s.substring(i, i + x));
+        }
+
+        Collections.sort(out);
+
+        System.out.println(out.get(0) + "\n" + out.get(out.size()-1));
+    }
+
+    private static void TwoStrings(){
+        String A = "hello";
+        String B = "java";
+        List<String> result = new ArrayList<>();
+
+        result.add(String.valueOf(A.length() + B.length()));
+
+        if(A.toLowerCase().compareTo(B.toLowerCase()) <= 0){
+            result.add("No");
+        } else result.add("Yes");
+
+        String A1 = A.substring(0,1).toUpperCase() + A.substring(1).toLowerCase();
+        String B1 = B.substring(0,1).toUpperCase() + B.substring(1).toLowerCase();
+        String out = A1 + " " + B1;
+
+        result.add(out);
+        result.forEach(System.out::println);
     }
 
     private static void CutTheSticks() {
