@@ -6,6 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.Permission;
 import java.text.NumberFormat;
 import java.util.*;
+import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -71,20 +72,80 @@ public class Main {
 
         //Substring();
 
+        //Tags();
+
     }
 
-    private static void Substring(){
+    private static void Tags() {
+        List<String> list = List.of("<h1>Nayeem loves counseling</h1>",
+                "<h1><h1>Sanjay has no watch</h1></h1><par>So wait for a while</par>",
+                "<Amee>safat codes like a ninja</amee>",
+                "<SA premium>Imtiaz has a secret crush</SA premium>",
+                " ",
+                "<h1>");
+        List<String> out = new ArrayList<>();
+
+        list.forEach(s -> {
+
+            String regex = "(<\\w+.*?>).*?(<\\/\\w+.*?>)+";
+            Pattern p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+
+            if (!s.matches(p.pattern())) {
+                out.add("None");
+            } else {
+                LinkedList<String> grupos = new LinkedList<>();
+                Matcher matcher = p.matcher(s);
+
+                while (matcher.find()) {
+                    grupos.add(matcher.group());
+                }
+
+                grupos.forEach(a -> {
+                    String abreTag = "(<\\w+.*?>).*?";
+                    Pattern pAbre = Pattern.compile(abreTag, Pattern.CASE_INSENSITIVE);
+                    Matcher mAbre = pAbre.matcher(a);
+                    LinkedList<String> pilha = new LinkedList<>();
+                    int inicioFrase = 0;
+
+                    while (mAbre.find()) {
+                        pilha.add(a.substring(mAbre.start() + 1, mAbre.end() - 1));
+                        inicioFrase = mAbre.end();
+                    }
+
+                    String fechaTag = "(</\\w+.*?>)";
+                    Pattern pFecha = Pattern.compile(fechaTag, Pattern.CASE_INSENSITIVE);
+                    Matcher mFecha = pFecha.matcher(a);
+                    int fimFrase = 0;
+                    boolean primeiraTag = false;
+                    while (mFecha.find()) {
+                        if (a.substring(mFecha.start() + 2, mFecha.end() - 1).equals(pilha.getLast())) {
+                            pilha.removeLast();
+                            if(!primeiraTag) fimFrase = mFecha.start();
+                            primeiraTag = true;
+                        }
+                    }
+
+                    if (pilha.isEmpty()) {
+                        out.add(a.substring(inicioFrase, fimFrase));
+                    } else out.add("None");
+                });
+            }
+        });
+        out.forEach(System.out::println);
+    }
+
+    private static void Substring() {
         String s = "welcometojava";
         int k = 3;
 
         String smallest = s.substring(0, k);
         String largest = s.substring(0, k);
 
-        for(int i = k; i <= s.length()-k; i++){
-            if(s.substring(i, i + k).compareTo(smallest) < 0){
+        for (int i = k; i <= s.length() - k; i++) {
+            if (s.substring(i, i + k).compareTo(smallest) < 0) {
                 smallest = s.substring(i, i + k);
             }
-            if(s.substring(i, i + k).compareTo(largest) > 0){
+            if (s.substring(i, i + k).compareTo(largest) > 0) {
                 largest = s.substring(i, i + k);
             }
         }
@@ -92,19 +153,19 @@ public class Main {
         System.out.println(smallest + "\n" + largest);
     }
 
-    private static void TwoStrings(){
+    private static void TwoStrings() {
         String A = "hello";
         String B = "java";
         List<String> result = new ArrayList<>();
 
         result.add(String.valueOf(A.length() + B.length()));
 
-        if(A.toLowerCase().compareTo(B.toLowerCase()) <= 0){ // A antes de B == negativo
+        if (A.toLowerCase().compareTo(B.toLowerCase()) <= 0) { // A antes de B == negativo
             result.add("No");
         } else result.add("Yes");
 
-        String A1 = A.substring(0,1).toUpperCase() + A.substring(1).toLowerCase();
-        String B1 = B.substring(0,1).toUpperCase() + B.substring(1).toLowerCase();
+        String A1 = A.substring(0, 1).toUpperCase() + A.substring(1).toLowerCase();
+        String B1 = B.substring(0, 1).toUpperCase() + B.substring(1).toLowerCase();
         String out = A1 + " " + B1;
 
         result.add(out);
@@ -341,7 +402,7 @@ public class Main {
         public MyRegex() {
             this.pattern =
                     Pattern.compile("^(([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.){3}([01]?\\d\\d?|2[0-4]\\d|25[0-5])$")
-                            .toString();
+                            .pattern();
         }
     }
 
