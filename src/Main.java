@@ -72,64 +72,36 @@ public class Main {
 
         //Substring();
 
-        //Tags();
+        Tags();
 
     }
 
     private static void Tags() {
-        List<String> list = List.of("<h1>Nayeem loves counseling</h1>",
+        List<String> list = List.of(
+                "<h1>had<h1>public</h1></h1>",
+                "<>hello</><h>dim</h>",
                 "<h1><h1>Sanjay has no watch</h1></h1><par>So wait for a while</par>",
+                "<h1>Nayeem loves counseling</h1>",
                 "<Amee>safat codes like a ninja</amee>",
                 "<SA premium>Imtiaz has a secret crush</SA premium>",
                 " ",
                 "<h1>");
+
         List<String> out = new ArrayList<>();
 
         list.forEach(s -> {
 
-            String regex = "(<\\w+.*?>).*?(<\\/\\w+.*?>)+";
-            Pattern p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+            final String regex = "<(\\S[^<>]*)>(\\S[^<>]*)</(\\1)>";
+            final Pattern pattern = Pattern.compile(regex);
+            final Matcher matcher = pattern.matcher(s);
+            boolean encontrado = false;
 
-            if (!s.matches(p.pattern())) {
-                out.add("None");
-            } else {
-                LinkedList<String> grupos = new LinkedList<>();
-                Matcher matcher = p.matcher(s);
-
-                while (matcher.find()) {
-                    grupos.add(matcher.group());
-                }
-
-                grupos.forEach(a -> {
-                    String abreTag = "(<\\w+.*?>).*?";
-                    Pattern pAbre = Pattern.compile(abreTag, Pattern.CASE_INSENSITIVE);
-                    Matcher mAbre = pAbre.matcher(a);
-                    LinkedList<String> pilha = new LinkedList<>();
-                    int inicioFrase = 0;
-
-                    while (mAbre.find()) {
-                        pilha.add(a.substring(mAbre.start() + 1, mAbre.end() - 1));
-                        inicioFrase = mAbre.end();
-                    }
-
-                    String fechaTag = "(</\\w+.*?>)";
-                    Pattern pFecha = Pattern.compile(fechaTag, Pattern.CASE_INSENSITIVE);
-                    Matcher mFecha = pFecha.matcher(a);
-                    int fimFrase = 0;
-                    boolean primeiraTag = false;
-                    while (mFecha.find()) {
-                        if (a.substring(mFecha.start() + 2, mFecha.end() - 1).equals(pilha.getLast())) {
-                            pilha.removeLast();
-                            if(!primeiraTag) fimFrase = mFecha.start();
-                            primeiraTag = true;
-                        }
-                    }
-
-                    if (pilha.isEmpty()) {
-                        out.add(a.substring(inicioFrase, fimFrase));
-                    } else out.add("None");
-                });
+            while (matcher.find()) {
+                out.add(matcher.group(2));
+                encontrado = true;
             }
+            if(!encontrado) out.add("None");
+
         });
         out.forEach(System.out::println);
     }
