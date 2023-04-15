@@ -1,12 +1,12 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.Permission;
 import java.text.NumberFormat;
 import java.util.*;
-import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -72,8 +72,65 @@ public class Main {
 
         //Substring();
 
-        Tags();
+        //Tags();
 
+        BigDecimal();
+
+    }
+
+    private static void BigDecimal() {
+//        List<BigDecimal> list = List.of(
+//                BigDecimal.valueOf(-100),
+//                BigDecimal.valueOf(50),
+//                BigDecimal.valueOf(0),
+//                BigDecimal.valueOf(56.6),
+//                BigDecimal.valueOf(90),
+//                BigDecimal.valueOf(0.12),
+//                BigDecimal.valueOf(.12),
+//                BigDecimal.valueOf(02.34),
+//                BigDecimal.valueOf(000.000));
+
+//        Scanner sc = new Scanner(System.in);
+//        int n = sc.nextInt();
+//        String[] s = new String[n+2]; // É do desafio do HackerHank
+//        for (int i = 0; i < n; i++) {
+//            s[i] = sc.next();
+//        }
+//        sc.close();
+
+        String[] s = {"-100", "50", "0", "56.6", "90", "0.12", ".12", "02.34", "000.000"};
+
+        List<String> temp = new ArrayList<>();
+
+        for(int y = 0; y<s.length; y++){
+            temp.add(s[y]);
+        }
+
+        temp.sort(Comparator.comparingDouble(Double::valueOf));
+
+        Collections.reverse(temp);
+
+        for(int z=0; z<temp.size()-1; z++){
+            BigDecimal atual = new BigDecimal(temp.get(z));
+            BigDecimal proximo = new BigDecimal(temp.get(z+1));
+
+            if(atual.compareTo(proximo) == 0){
+                String sAtual = temp.get(z);
+                String sProximo = temp.get(z+1);
+
+                if(!sAtual.contains("0.") || sAtual.contains("000")){
+                    String aux = sAtual;
+                    temp.set(z, sProximo);
+                    temp.set(z+1, aux);
+                }
+            }
+        }
+
+        for(int x= 0; x < temp.size(); x++){
+            Arrays.asList(s).set(x, temp.get(x));
+        }
+
+        Arrays.stream(s).forEach(System.out::println);
     }
 
     private static void Tags() {
@@ -100,7 +157,7 @@ public class Main {
                 out.add(matcher.group(2));
                 encontrado = true;
             }
-            if(!encontrado) out.add("None");
+            if (!encontrado) out.add("None");
 
         });
         out.forEach(System.out::println);
