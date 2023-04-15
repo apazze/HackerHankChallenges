@@ -2,16 +2,20 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.Permission;
 import java.text.NumberFormat;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ForkJoinPool;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-import static java.lang.Math.pow;
+import static java.lang.Math.*;
 import static java.util.Calendar.LONG_STANDALONE;
 
 public class Main {
@@ -74,8 +78,22 @@ public class Main {
 
         //Tags();
 
-        BigDecimal();
+        //BigDecimal();
 
+        //NumerosPrimos();
+
+    }
+
+    private static void NumerosPrimos() {
+
+        List<BigInteger> valores = List.of(
+                new BigInteger("55"),
+                new BigInteger("2367495770217142995264827948666809233066409497699870112003149352380375124855230068487109373226251983"),
+                new BigInteger("669483106578092405936560831017556154622901950048903016651285"));
+
+        valores.forEach(v -> {
+            System.out.println(v.isProbablePrime(1) ? "prime" : "not prime");
+        });
     }
 
     private static void BigDecimal() {
@@ -102,7 +120,7 @@ public class Main {
 
         List<String> temp = new ArrayList<>();
 
-        for(int y = 0; y<s.length; y++){
+        for (int y = 0; y < s.length; y++) {
             temp.add(s[y]);
         }
 
@@ -110,23 +128,23 @@ public class Main {
 
         Collections.reverse(temp);
 
-        for(int z=0; z<temp.size()-1; z++){
+        for (int z = 0; z < temp.size() - 1; z++) {
             BigDecimal atual = new BigDecimal(temp.get(z));
-            BigDecimal proximo = new BigDecimal(temp.get(z+1));
+            BigDecimal proximo = new BigDecimal(temp.get(z + 1));
 
-            if(atual.compareTo(proximo) == 0){
+            if (atual.compareTo(proximo) == 0) {
                 String sAtual = temp.get(z);
-                String sProximo = temp.get(z+1);
+                String sProximo = temp.get(z + 1);
 
-                if(!sAtual.contains("0.") || sAtual.contains("000")){
+                if (!sAtual.contains("0.") || sAtual.contains("000")) {
                     String aux = sAtual;
                     temp.set(z, sProximo);
-                    temp.set(z+1, aux);
+                    temp.set(z + 1, aux);
                 }
             }
         }
 
-        for(int x= 0; x < temp.size(); x++){
+        for (int x = 0; x < temp.size(); x++) {
             Arrays.asList(s).set(x, temp.get(x));
         }
 
