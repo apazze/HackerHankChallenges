@@ -1,10 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -12,14 +8,11 @@ import java.security.NoSuchAlgorithmException;
 import java.security.Permission;
 import java.text.NumberFormat;
 import java.util.*;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ForkJoinPool;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-import static java.lang.Math.*;
+import static java.lang.Math.pow;
 import static java.util.Calendar.LONG_STANDALONE;
 
 public class Main {
@@ -86,6 +79,19 @@ public class Main {
 
         //NumerosPrimos();
 
+        //HugeNumbers();
+
+    }
+
+    private static void HugeNumbers(){
+        String a = "1234";
+        String b = "20";
+
+        BigInteger bigA = new BigInteger(a);
+        BigInteger bigB = new BigInteger(b);
+
+        System.out.println(bigA.add(bigB));
+        System.out.println(bigA.multiply(bigB));
     }
 
     private static void NumerosPrimos() {
