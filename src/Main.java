@@ -81,9 +81,74 @@ public class Main {
 
         //HugeNumbers();
 
+        //Array1D();
+
+        //Array2D();
+
+        //Subarray();
+
     }
 
-    private static void HugeNumbers(){
+    private static void Subarray() {
+//        String s = "1 -2 4 -5 1";
+        String s = "-100";
+        List<Integer> list = new ArrayList<>();
+        StringTokenizer stringTokenizer = new StringTokenizer(s.trim());
+
+        while (stringTokenizer.hasMoreTokens())
+            list.add(Integer.parseInt(stringTokenizer.nextToken()));
+
+        int cont = 0;
+        for (int i = 0; i < list.size(); i++) {
+            for(int x = list.size(); x > i; x--){
+                Integer reduce = list.subList(i, x)
+                        .stream()
+                        .reduce(0, (subtotal, element) -> subtotal + element);
+                if (reduce < 0) cont++;
+            }
+        }
+        System.out.println(cont);
+    }
+
+    private static void Array2D() {
+        int[][] arr = {{1, 1, 1, 0, 0, 0},
+                {0, 1, 0, 0, 0, 0},
+                {1, 1, 1, 0, 0, 0},
+                {0, 0, 2, 4, 4, 0},
+                {0, 0, 0, 2, 0, 0},
+                {0, 0, 1, 2, 4, 0}};
+
+        int l = arr[0].length;
+        int c = arr.length;
+        int hourglass = Integer.MIN_VALUE;
+
+        for (int x = 0; x < l - 2; x++) {
+            for (int y = 0; y < c - 2; y++) {
+                int soma = arr[x][y] + arr[x][y + 1] + arr[x][y + 2]
+                        + arr[x + 1][y + 1]
+                        + arr[x + 2][y] + arr[x + 2][y + 1] + arr[x + 2][y + 2];
+                if (soma > hourglass) hourglass = soma;
+            }
+        }
+        System.out.println(hourglass);
+    }
+
+    private static void Array1D() {
+        Scanner scan = new Scanner(System.in);
+        int n = scan.nextInt();
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            a[i] = scan.nextInt();
+        }
+        scan.close();
+
+        // Prints each sequential element in array a
+        for (int i = 0; i < a.length; i++) {
+            System.out.println(a[i]);
+        }
+    }
+
+    private static void HugeNumbers() {
         String a = "1234";
         String b = "20";
 
