@@ -1,6 +1,4 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -93,30 +91,79 @@ public class Main {
 
         //Maps();
 
+        //QueriesList();
+
     }
 
-    private static void Maps(){
+    private static void QueriesList() throws FileNotFoundException {
+        List<Integer> list = new ArrayList<>();
+//        list.addAll(List.of(12, 0, 1, 78, 12));
+//        Scanner in = new Scanner(System.in);
+//        int n = in.nextInt();
+//        in.nextLine();
+
+//        Scanner in = new Scanner(new FileReader("resource/queriesList0.txt")).useDelimiter("\\n");
+//        Scanner in = new Scanner(new FileReader("resource/queriesList1.txt")).useDelimiter("\\n");
+        Scanner in = new Scanner(new FileReader("resource/queriesList2.txt")).useDelimiter("\\n");
+
+        while (in.hasNext()) {
+            int n = Integer.parseInt(in.nextLine());
+            String values = in.nextLine();
+            StringTokenizer st = new StringTokenizer(values.trim());
+
+            while (st.hasMoreTokens()) list.add(Integer.parseInt(st.nextToken()));
+
+            int qtdCmd = Integer.parseInt(in.nextLine());
+
+            while (qtdCmd-- > 0) {
+                String cmd = in.nextLine();
+
+                if (cmd.equals("Insert")) {
+                    String s = in.nextLine();
+                    StringTokenizer st1 = new StringTokenizer(s.trim());
+                    int i = Integer.parseInt(st1.nextToken());
+                    int v = Integer.parseInt(st1.nextToken());
+                    try {
+                        list.add(i, v);
+                    } catch (Exception e) {
+                        int diff = i - list.size()-1;
+                        while(i-->0) list.add(0);
+                        list.add(i, v);
+                    }
+                }
+                if (cmd.equals("Delete")) {
+                    int i = Integer.parseInt(in.nextLine());
+                    list.remove(i);
+                }
+            }
+        }
+        System.out.print(list.get(0));
+        for (int i = 1; i< list.size();i++){
+            System.out.print(" "+list.get(i));
+        }
+        System.out.println();
+    }
+
+    private static void Maps() {
         Scanner in = new Scanner(System.in);
-        int n=in.nextInt();
+        int n = in.nextInt();
         in.nextLine();
         Map<String, Integer> map = new HashMap<>();
-        for(int i=0;i<n;i++)
-        {
-            String name=in.nextLine();
-            int phone=in.nextInt();
+        for (int i = 0; i < n; i++) {
+            String name = in.nextLine();
+            int phone = in.nextInt();
             in.nextLine();
             map.put(name, phone);
         }
-        while(in.hasNext())
-        {
-            String s=in.nextLine();
-            if(map.containsKey(s)){
-                System.out.println(s+"="+map.get(s));
+        while (in.hasNext()) {
+            String s = in.nextLine();
+            if (map.containsKey(s)) {
+                System.out.println(s + "=" + map.get(s));
             } else System.out.println("Not found");
         }
     }
 
-    private static void Sort(){
+    private static void Sort() {
         List<String> list = List.of("33 Rumpa 3.68",
                 "85 Ashis 3.85",
                 "56 Samiha 3.75",
@@ -138,22 +185,26 @@ public class Main {
         studentList.forEach(System.out::println);
     }
 
-    class Student{
+    class Student {
         private int id;
         private String fname;
         private double cgpa;
+
         public Student(int id, String fname, double cgpa) {
             super();
             this.id = id;
             this.fname = fname;
             this.cgpa = cgpa;
         }
+
         public int getId() {
             return id;
         }
+
         public String getFname() {
             return fname;
         }
+
         public double getCgpa() {
             return cgpa;
         }
@@ -187,8 +238,8 @@ public class Main {
 
         queries.forEach(i -> {
             try {
-                System.out.println(list.get(i.get(0)-1).get(i.get(1)));
-            } catch (Exception e){
+                System.out.println(list.get(i.get(0) - 1).get(i.get(1)));
+            } catch (Exception e) {
                 System.out.println("ERROR!");
             }
         });
