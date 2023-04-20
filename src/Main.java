@@ -63,7 +63,7 @@ public class Main {
 
         //ConversorDecToBinDevolveQuartoBit();
 
-        //ParesBalanceados();
+        ParesBalanceados();
 
         //CutTheSticks();
 
@@ -126,8 +126,8 @@ public class Main {
                     try {
                         list.add(i, v);
                     } catch (Exception e) {
-                        int diff = i - list.size()-1;
-                        while(i-->0) list.add(0);
+                        int diff = i - list.size() - 1;
+                        while (i-- > 0) list.add(0);
                         list.add(i, v);
                     }
                 }
@@ -138,8 +138,8 @@ public class Main {
             }
         }
         System.out.print(list.get(0));
-        for (int i = 1; i< list.size();i++){
-            System.out.print(" "+list.get(i));
+        for (int i = 1; i < list.size(); i++) {
+            System.out.print(" " + list.get(i));
         }
         System.out.println();
     }
@@ -524,9 +524,11 @@ public class Main {
                 .orElse(null);
     }
 
-    private static void ParesBalanceados() {
-        List<String> list = List.of("{[(])}", "{}[]()", "{[}]}", "[{}]", "[{]}");
-        List<String> result = new ArrayList<>();
+    private static void ParesBalanceados() throws FileNotFoundException {
+//        List<String> list = List.of("{[(])}", "{}[]()", "{[}]}", "[{}]", "[{]}");
+        List<String> list = new ArrayList<>();
+        Scanner in = new Scanner(new FileReader("resource/stack1.txt")).useDelimiter("\\n");
+        while (in.hasNext()) list.add(in.nextLine());
         Map<Character, Character> map = new HashMap<>() {{
             put('(', ')');
             put('[', ']');
@@ -535,7 +537,7 @@ public class Main {
 
         list.forEach(s -> {
             if (s.length() % 2 != 0) {
-                result.add("NÃO");
+                System.out.println("false");
             } else {
                 LinkedList<Character> linkedList = new LinkedList<>();
                 char[] chars = s.toCharArray();
@@ -544,18 +546,24 @@ public class Main {
                     if (map.containsKey(chars[i])) {
                         linkedList.add(chars[i]);
                     } else {
-                        if (map.containsValue(chars[i]) && linkedList.getLast().equals(findKey(chars[i], map))) {
-                            linkedList.removeLast();
-                            if (i == chars.length - 1 && linkedList.isEmpty()) result.add("SIM");
-                        } else {
-                            result.add("NÃO");
+                        if(linkedList.isEmpty()) {
+                            System.out.println("false");
                             i = chars.length;
+                        }
+
+                        else{
+                            if (map.containsValue(chars[i]) && linkedList.getLast().equals(findKey(chars[i], map))) {
+                                linkedList.removeLast();
+                                if (i == chars.length - 1 && linkedList.isEmpty()) System.out.println("true");
+                            } else {
+                                System.out.println("false");
+                                i = chars.length;
+                            }
                         }
                     }
                 }
             }
         });
-        result.forEach(System.out::println);
     }
 
     private static Character findKey(Character value, Map map) {
