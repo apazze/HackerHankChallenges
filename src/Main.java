@@ -87,6 +87,127 @@ public class Main {
 
         //Subarray();
 
+        //ArraysLists();
+
+        //Sort();
+
+        //Maps();
+
+    }
+
+    private static void Maps(){
+        Scanner in = new Scanner(System.in);
+        int n=in.nextInt();
+        in.nextLine();
+        Map<String, Integer> map = new HashMap<>();
+        for(int i=0;i<n;i++)
+        {
+            String name=in.nextLine();
+            int phone=in.nextInt();
+            in.nextLine();
+            map.put(name, phone);
+        }
+        while(in.hasNext())
+        {
+            String s=in.nextLine();
+            if(map.containsKey(s)){
+                System.out.println(s+"="+map.get(s));
+            } else System.out.println("Not found");
+        }
+    }
+
+    private static void Sort(){
+        List<String> list = List.of("33 Rumpa 3.68",
+                "85 Ashis 3.85",
+                "56 Samiha 3.75",
+                "19 Samara 3.75",
+                "22 Fahim 3.76");
+
+        List<Student> studentList = new ArrayList<Student>();
+
+        list.forEach(i -> {
+            StringTokenizer st = new StringTokenizer(i.trim());
+            int id = Integer.parseInt(st.nextToken());
+            String fname = st.nextToken();
+            double cgpa = Double.parseDouble(st.nextToken());
+//            Student student = new Student(id, fname, cgpa);
+//            studentList.add(student);
+        });
+
+        studentList.sort(Comparator.comparing(Student::getFname));
+        studentList.forEach(System.out::println);
+    }
+
+    class Student{
+        private int id;
+        private String fname;
+        private double cgpa;
+        public Student(int id, String fname, double cgpa) {
+            super();
+            this.id = id;
+            this.fname = fname;
+            this.cgpa = cgpa;
+        }
+        public int getId() {
+            return id;
+        }
+        public String getFname() {
+            return fname;
+        }
+        public double getCgpa() {
+            return cgpa;
+        }
+    }
+
+    private static void ArraysLists() {
+
+//        int[][] i = {
+//                {5},
+//                {5, 41, 77, 74, 22, 44},
+//                {1, 12},
+//                {4, 37, 34, 36, 52},
+//                {0},
+//                {3, 20, 22, 33},
+//                {5},
+//                {1,3},
+//                {3, 4},
+//                {3, 1},
+//                {4, 3},
+//                {5, 5} };
+
+        Scanner in = new Scanner(System.in);
+
+        int tam = in.nextInt();
+
+        List<List<Integer>> list = PopulaLista(tam, in);
+
+        int tamQuerie = in.nextInt();
+
+        List<List<Integer>> queries = PopulaLista(tamQuerie, in);
+
+        queries.forEach(i -> {
+            try {
+                System.out.println(list.get(i.get(0)-1).get(i.get(1)));
+            } catch (Exception e){
+                System.out.println("ERROR!");
+            }
+        });
+        in.close();
+    }
+
+    private static List<List<Integer>> PopulaLista(int tam, Scanner in) {
+        in.nextLine();
+        List<List<Integer>> list = new ArrayList<>();
+
+        for (int i = 0; i < tam; i++) {
+            List<Integer> aux = new ArrayList<>();
+            String s = in.nextLine();
+            StringTokenizer st = new StringTokenizer(s.trim());
+
+            while (st.hasMoreTokens()) aux.add(Integer.parseInt(st.nextToken()));
+            list.add(aux);
+        }
+        return list;
     }
 
     private static void Subarray() {
@@ -100,7 +221,7 @@ public class Main {
 
         int cont = 0;
         for (int i = 0; i < list.size(); i++) {
-            for(int x = list.size(); x > i; x--){
+            for (int x = list.size(); x > i; x--) {
                 Integer reduce = list.subList(i, x)
                         .stream()
                         .reduce(0, (subtotal, element) -> subtotal + element);
