@@ -6,6 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.Permission;
 import java.text.NumberFormat;
 import java.util.*;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -63,7 +64,7 @@ public class Main {
 
         //ConversorDecToBinDevolveQuartoBit();
 
-        ParesBalanceados();
+        //ParesBalanceados();
 
         //CutTheSticks();
 
@@ -93,6 +94,36 @@ public class Main {
 
         //QueriesList();
 
+        //Generics();
+
+    }
+
+    private static void Generics(){
+        //Integer[] intArray = {1, 2, 3, 4, 5};
+        //List<String> stringList
+                //= fromArrayToList(intArray, Object::toString);
+
+        //assertThat(stringList, hasItems("1", "2", "3", "4", "5"));
+
+        Integer[] matrizInt = { 1, 2, 3 };
+        String[] matrizTexto = { "Hello", "World" };
+
+        printArray(matrizInt);
+        printArray(matrizTexto);
+    }
+
+    private static <T> void printArray(T[] a){
+        Arrays.stream(a).forEach(System.out::println);
+    }
+
+    private static <T> List<T> fromArrayList(T[] a){
+        return Arrays.stream(a).collect(Collectors.toList());
+    }
+
+    private static <T, G> List<G> fromArrayToList(T[] a, Function<T, G> mapperFunction) {
+        return Arrays.stream(a)
+                .map(mapperFunction)
+                .collect(Collectors.toList());
     }
 
     private static void QueriesList() throws FileNotFoundException {
