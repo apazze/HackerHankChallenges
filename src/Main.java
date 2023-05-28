@@ -99,6 +99,42 @@ public class Main {
         //Excecoes();
 
         //ExcecoesLongPower();
+
+        //Iterador();
+    }
+
+    private static void Iterador() throws Exception {
+//        Scanner sc = new Scanner(System.in);
+//        while(sc.hasNext()){
+//            String s1 = sc.nextLine();
+//        }
+        ArrayList mylist = new ArrayList();
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        for (int i = 0; i < n; i++) {
+            mylist.add(sc.nextInt());
+        }
+        mylist.add("###");
+        for (int i = 0; i < m; i++) {
+            mylist.add(sc.next());
+        }
+        Iterator it = func(mylist);
+        while (it.hasNext()) {
+            Object element = it.next();
+            System.out.println((String) element);
+        }
+    }
+
+    @SuppressWarnings({"unchecked", "deprecation"}) // Suprimir logs de warning do compilador
+    private static Iterator func(ArrayList arr) throws Exception {
+        Iterator it = arr.iterator();
+        while (it.hasNext()) {
+            Object element = it.next();
+            if (element instanceof String)
+                break;
+        }
+        return it;
     }
 
     /**
@@ -136,7 +172,7 @@ public class Main {
         for (int i = 0; i < n.size(); i++) {
             try {
                 System.out.println(LongPower(n.get(i), p.get(i)));
-            } catch (Exception e){
+            } catch (Exception e) {
                 System.out.println(e);
             }
         }
