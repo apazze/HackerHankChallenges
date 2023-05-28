@@ -96,27 +96,80 @@ public class Main {
 
         //Generics();
 
+        //Excecoes();
+
+        //ExcecoesLongPower();
     }
 
-    private static void Generics(){
+    /**
+     * O tratamento de exceções é o processo de responder à ocorrência, durante a computação, de exceções – condições anômalas ou excepcionais que requerem processamento especial – muitas vezes alterando o fluxo normal de execução do programa. (Wikipédia)
+     * <p>
+     * Java possui um mecanismo interno para lidar com exceções. Usando a instrução try , podemos testar um bloco de código em busca de erros. O bloco catch contém o código que diz o que fazer se ocorrer uma exceção.
+     * <p>
+     * Este problema testará seu conhecimento sobre o bloco try-catch.
+     */
+    private static void Excecoes() {
+        Scanner sc = new Scanner(System.in);
+        try {
+            String a = sc.next();
+            String b = sc.next();
+            System.out.println(Integer.parseInt(a) / Integer.parseInt(b));
+        } catch (NumberFormatException | ArithmeticException e) {
+            if (e instanceof NumberFormatException) System.out.println(new InputMismatchException());
+            else System.out.println(e);
+        } finally {
+            sc.close();
+        }
+    }
+
+    private static void ExcecoesLongPower() throws Exception {
+        String in = "-3 5";
+        String[] split = in.split("\\s+");
+        Long a = Long.valueOf(split[0]);
+        Long b = Long.valueOf(split[1]);
+        System.out.println();
+
+
+        List<Long> n = List.of(3l, 2l, 0l, -1l, -1l);
+        List<Long> p = List.of(5l, 4l, 0l, -2l, -3l);
+
+        for (int i = 0; i < n.size(); i++) {
+            try {
+                System.out.println(LongPower(n.get(i), p.get(i)));
+            } catch (Exception e){
+                System.out.println(e);
+            }
+        }
+    }
+
+    private static Long LongPower(Long n, Long p) throws Exception {
+        if (n == 0 && p == 0) throw new Exception("n and p should not be zero.");
+        else if (n == 0 || p == 0) throw new Exception("n or p should not be zero.");
+        else if (n < 0 && p < 0) throw new Exception("n and p should not be negative.");
+        else if (n < 0 || p < 0) throw new Exception("n or p should not be negative.");
+
+        return Long.valueOf((long) pow(n, p));
+    }
+
+    private static void Generics() {
         //Integer[] intArray = {1, 2, 3, 4, 5};
         //List<String> stringList
-                //= fromArrayToList(intArray, Object::toString);
+        //= fromArrayToList(intArray, Object::toString);
 
         //assertThat(stringList, hasItems("1", "2", "3", "4", "5"));
 
-        Integer[] matrizInt = { 1, 2, 3 };
-        String[] matrizTexto = { "Hello", "World" };
+        Integer[] matrizInt = {1, 2, 3};
+        String[] matrizTexto = {"Hello", "World"};
 
         printArray(matrizInt);
         printArray(matrizTexto);
     }
 
-    private static <T> void printArray(T[] a){
+    private static <T> void printArray(T[] a) {
         Arrays.stream(a).forEach(System.out::println);
     }
 
-    private static <T> List<T> fromArrayList(T[] a){
+    private static <T> List<T> fromArrayList(T[] a) {
         return Arrays.stream(a).collect(Collectors.toList());
     }
 
@@ -577,12 +630,10 @@ public class Main {
                     if (map.containsKey(chars[i])) {
                         linkedList.add(chars[i]);
                     } else {
-                        if(linkedList.isEmpty()) {
+                        if (linkedList.isEmpty()) {
                             System.out.println("false");
                             i = chars.length;
-                        }
-
-                        else{
+                        } else {
                             if (map.containsValue(chars[i]) && linkedList.getLast().equals(findKey(chars[i], map))) {
                                 linkedList.removeLast();
                                 if (i == chars.length - 1 && linkedList.isEmpty()) System.out.println("true");
