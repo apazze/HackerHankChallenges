@@ -101,6 +101,36 @@ public class Main {
         //ExcecoesLongPower();
 
         //Iterador();
+
+        //Varargs();
+
+    }
+
+    private static void Varargs(){
+
+        Scanner sc = new Scanner(System.in);
+        int n1 = sc.nextInt();
+        int n2 = sc.nextInt();
+        int n3 = sc.nextInt();
+        int n4 = sc.nextInt();
+        int n5 = sc.nextInt();
+        int n6 = sc.nextInt();
+
+        add(n1, n2);
+        add(n1, n2, n3);
+        add(n1, n2, n3, n4, n5);
+        add(n1, n2, n3, n4, n5, n6);
+
+    }
+
+    private static void add(int ... integers){
+        int sum=0;
+        for(int i:integers){
+            sum+=i;
+            System.out.print(i);
+            if (i != integers[integers.length-1]) System.out.print("+");
+        }
+        System.out.println("="+sum);
     }
 
     private static void Iterador() throws Exception {
